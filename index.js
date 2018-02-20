@@ -1,3 +1,6 @@
+
+
+
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
@@ -9000,3 +9003,29 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var issuesWithUpdatedApiUrl = issues.map (function (issue) {
+  var newObj = Object.assign({}, issue)
+  newObj.url = "https://api-v2.github.com/repos/learn-co-curriculum/basic-sinatra-forms-lab/issues/7"
+  return newObj;
+})
+
+var commentCountAcrossIssues = issues.reduce(function (prev, curr) {
+  return prev + curr.comments_count
+}, 0)
+
+var openIssues = issues.filter(function (issue) {
+  return issue.state === 'open'
+})
+
+var nonAutomaticIssues = issues.filter(function (issue) {
+  return issue.body !== "This pull request has been automatically created by learn.co.";
+})
+
+var table = document.getElementById('results')
+
+var tableData = nonAutomaticIssues.map (function (issue) {
+  return `<tr><td>${issue.body}</td><td>${issue.created_at}</td><td>${issue.state}</td></tr>`
+})
+
+table.innerHTML = tableData.join(' ')
